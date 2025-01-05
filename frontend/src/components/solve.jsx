@@ -67,8 +67,7 @@ const Solve = ({ onClose }) => {
       });
       const data = await response.json();
       setResponse(data);
-
-      if (!solve_response.is_solved) {
+      if (!data.is_solved) {
         console.log(solve_response);
         setVisibility(true);
       }
@@ -81,6 +80,7 @@ const Solve = ({ onClose }) => {
 
   return (
     <div className="py-16 bg-black">
+      {/* back button */}
       <div className="fixed top-4 left-4">
         <button
           onClick={() => navigate("/")}
@@ -89,6 +89,7 @@ const Solve = ({ onClose }) => {
           <FaArrowLeft /> Back
         </button>
       </div>
+
       {/* error div */}
       <div
         className={`h-screen w-screen fixed flex justify-center items-center inset-0 z-10 bg-black/50 ${
