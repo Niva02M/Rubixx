@@ -6,32 +6,86 @@ import Cube from "./cube";
 import CameraPopup from "./CameraPopUp";
 import FillCube from "./FillCube";
 import Cube3D from "./3dCube";
+import Alert from "./Alert";
 import { FaArrowLeft } from "react-icons/fa";
 const Solve = ({ onClose }) => {
   const navigate = useNavigate();
 
   const [popupOpen, setPopupOpen] = useState(false);
   const [popupVisible, setVisibility] = useState(false);
+  const [alert, setAlert] = useState({ message: "", visible: false });
 
   //selected color to fill
   const [currentColor, setCurrentColor] = useState("bg-white");
 
-  const initialFaceColors = Array(9).fill("bg-white"); // Initial colors for each face
-  // const [cubeColors, setCubeColors] = useState({
-  //   front: [...initialFaceColors],
-  //   back: [...initialFaceColors],
-  //   left: [...initialFaceColors],
-  //   right: [...initialFaceColors],
-  //   top: [...initialFaceColors],
-  //   bottom: [...initialFaceColors],
-  // });
+  const initialFaceColors = Array(9).fill("bg-white"); // Initial colors for each fac
   const [cubeColors, setCubeColors] = useState({
-    front: ["bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600"],
-    back: ["bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500"],
-    left: ["bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500"],
-    right: ["bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500"],
-    top: ["bg-white", "bg-white", "bg-white", "bg-white", "bg-white", "bg-white", "bg-white", "bg-white", "bg-white"],
-    bottom: ["bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400"],
+    front: [
+      "bg-blue-600",
+      "bg-blue-600",
+      "bg-blue-600",
+      "bg-blue-600",
+      "bg-blue-600",
+      "bg-blue-600",
+      "bg-blue-600",
+      "bg-blue-600",
+      "bg-blue-600",
+    ],
+    back: [
+      "bg-green-500",
+      "bg-green-500",
+      "bg-green-500",
+      "bg-green-500",
+      "bg-green-500",
+      "bg-green-500",
+      "bg-green-500",
+      "bg-green-500",
+      "bg-green-500",
+    ],
+    left: [
+      "bg-orange-500",
+      "bg-orange-500",
+      "bg-orange-500",
+      "bg-orange-500",
+      "bg-orange-500",
+      "bg-orange-500",
+      "bg-orange-500",
+      "bg-orange-500",
+      "bg-orange-500",
+    ],
+    right: [
+      "bg-red-500",
+      "bg-red-500",
+      "bg-red-500",
+      "bg-red-500",
+      "bg-red-500",
+      "bg-red-500",
+      "bg-red-500",
+      "bg-red-500",
+      "bg-red-500",
+    ],
+    top: [
+      "bg-white",
+      "bg-white",
+      "bg-white",
+      "bg-white",
+      "bg-white",
+      "bg-white",
+      "bg-white",
+      "bg-white",
+      "bg-white",
+    ],
+    bottom: [
+      "bg-yellow-400",
+      "bg-yellow-400",
+      "bg-yellow-400",
+      "bg-yellow-400",
+      "bg-yellow-400",
+      "bg-yellow-400",
+      "bg-yellow-400",
+      "bg-yellow-400",
+      "bg-yellow-400",
+    ],
   });
 
   const [solve_response, setResponse] = useState({
@@ -78,9 +132,12 @@ const Solve = ({ onClose }) => {
       });
       const data = await response.json();
       setResponse(data);
+      console.log(data);
       if (!data.is_solved) {
         console.log(solve_response);
         setVisibility(true);
+      } else if (data.is_solved && data.sequence.length === 0) {
+        setAlert({ message: "Cube is already solved!", visible: true });
       }
     } catch (error) {
       setResponse((prev) => {
@@ -100,6 +157,13 @@ const Solve = ({ onClose }) => {
           <FaArrowLeft /> Back
         </button>
       </div>
+      {/* Alert Component */}
+      <Alert
+        message={alert.message}
+        isVisible={alert.visible}
+        onClose={() => setAlert({ ...alert, visible: false })}
+      />
+
       {/* error div */}
       <div
         className={`h-screen w-screen fixed flex justify-center items-center inset-0 z-10 bg-black/50 ${

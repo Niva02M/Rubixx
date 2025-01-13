@@ -9,7 +9,7 @@ import {
   stateMap,
 } from "../assets/utils/3Dhelpers";
 
-const VirtualCube = () => {
+const VirtualCube = ({ cubeColors, initialFaceColors }) => {
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
@@ -21,6 +21,18 @@ const VirtualCube = () => {
   const isRotatingRef = useRef(false);
   const resizeObserverRef = useRef(null);
 
+  const cleanColors = (cubeColors) => {
+    const cleanedCubeColors = {};
+
+    Object.keys(cubeColors).forEach((key) => {
+      cleanedCubeColors[key] = cubeColors[key].map((color) =>
+        color.replace(/^bg-/, "").replace(/\d+/g, "").replace(/-$/, "")
+      );
+    });
+
+    return cleanedCubeColors;
+  };
+  const cleanedCubeColors = cleanColors(cubeColors);
   const rotateConditions = {
     right: { axis: "x", value: 1 },
     left: { axis: "x", value: -1 },
@@ -56,7 +68,7 @@ const VirtualCube = () => {
     rendererRef.current = renderer;
 
     // Camera setup
-    const camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+    const camera = new THREE.PerspectiveCamera(35, width / height, 1, 1000);
     camera.position.set(6, 6, 6);
     cameraRef.current = camera;
 
@@ -78,7 +90,7 @@ const VirtualCube = () => {
       for (let i = 0; i < 6; i++) {
         if (stateMap[index][i]) {
           const values = stateMap[index][i];
-          mat.push(materials[initialColors[values.position][values.no]]);
+          mat.push(materials[cleanedCubeColors[values.position][values.no]]); // Use cleanedCubeColors from state
         } else {
           mat.push(materials.black);
         }

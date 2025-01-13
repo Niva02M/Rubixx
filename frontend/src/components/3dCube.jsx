@@ -4,7 +4,6 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import {
-  initialColors,
   materials,
   Roll,
   stateMap,
@@ -36,7 +35,6 @@ const VirtualCube = ({ cubeColors, initialFaceColors }) => {
     return cleanedCubeColors;
   };
   const cleanedCubeColors=cleanColors(cubeColors)
-  console.log(cleanedCubeColors);
   const rotateConditions = {
     right: { axis: "x", value: 1 },
     left: { axis: "x", value: -1 },
@@ -221,14 +219,14 @@ const VirtualCube = ({ cubeColors, initialFaceColors }) => {
         className="w-full h-[500px] md:w-2/3 overflow-hidden rounded-3xl bg-gray-900"
       />
       <div className="flex flex-wrap justify-center gap-4 m-4">
-        <button className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700 active:bg-gray-900">
+        <button className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700 ">
           <FaStepBackward />
         </button>
         <button className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700 active:bg-gray-900">
           {/* <FaPause /> */}
           <FaPlay />
         </button>
-        <button className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700 active:bg-gray-900">
+        <button className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700">
           <FaStepForward />
         </button>
       </div>
