@@ -26,7 +26,7 @@ const Solve = ({ onClose }) => {
     bottom: [...initialFaceColors],
   });
   const [solve_response, setResponse] = useState({
-    sequence: [],
+    sequence: ["a"],
     is_solved: true,
     error: "",
   });
@@ -91,7 +91,6 @@ const Solve = ({ onClose }) => {
           <FaArrowLeft /> Back
         </button>
       </div>
-
       {/* error div */}
       <div
         className={`h-screen w-screen fixed flex justify-center items-center inset-0 z-10 bg-black/50 ${
@@ -114,8 +113,7 @@ const Solve = ({ onClose }) => {
           {solve_response.error}
         </div>
       </div>
-
-      <div className="flex justify-evenly flex-wrap bg-blue-600">
+      <div className="flex justify-evenly flex-wrap ">
         {/*cube */}
         <Cube
           cubeColors={cubeColors}
@@ -124,7 +122,7 @@ const Solve = ({ onClose }) => {
         />
 
         {/* menu */}
-        <div className="flex flex-col justify-center bg-white w-auto">
+        <div className="flex flex-col justify-center rounded-2xl w-auto">
           <button
             onClick={() => setPopupOpen(true)}
             className="bg-blue-600 text-white py-2 px-6 my-2 rounded hover:bg-blue-700 transition duration-300"
@@ -165,17 +163,31 @@ const Solve = ({ onClose }) => {
         </div>
       </div>
 
-      <div className="h-auto w-full bg-green-900 flex flex-col justify-center align-middle">
-        <div className="h-auto w-auto">
-          <p className="text-white text-2xl">
-            {solve_response.sequence?.length > 0
-              ? solve_response.sequence.join(" ")
-              : ""}
-          </p>
-        </div>
 
-        <Cube3D />
-      </div>
+      {solve_response.sequence?.length > 0 && (
+        <>
+          {/* solution container */}
+          <div className="h-auto w-full  flex flex-col justify-center align-middle">
+            <p className=" text-white font-bold text-lg select-none my- px-3 ">
+              Solve Sequence:
+            </p>
+            <div className="h-auto w-auto  pb-4 pl-16">
+              <p className="text-white text-xl">
+                {solve_response.sequence?.length > 0
+                  ? solve_response.sequence.join(" ")
+                  : ""}
+                agdasfdasdfdf
+              </p>
+            </div>
+
+            {/* Show steps */}
+            <button className="font-bold text-lg select-none my-2 px-3 text-white hover:bg-gray-700 active:bg-gray-700 border">
+              Show steps
+            </button>
+            <Cube3D cubeColors={cubeColors} />
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import { FaStepBackward, FaStepForward, FaPause, FaPlay } from "react-icons/fa";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
@@ -9,7 +10,7 @@ import {
   stateMap,
 } from "../assets/utils/3Dhelpers";
 
-const VirtualCube = () => {
+const VirtualCube = ({ cubeColors }) => {
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
@@ -56,7 +57,7 @@ const VirtualCube = () => {
     rendererRef.current = renderer;
 
     // Camera setup
-    const camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+    const camera = new THREE.PerspectiveCamera(35, width / height, 1, 1000);
     camera.position.set(6, 6, 6);
     cameraRef.current = camera;
 
@@ -199,20 +200,21 @@ const VirtualCube = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center bg-gray-900">
       <div
         ref={mountRef}
-        className="w-full h-[600px] md:w-2/3 overflow-hidden"
+        className="w-full h-[500px] md:w-2/3 overflow-hidden rounded-3xl bg-gray-900"
       />
-      <div className="flex flex-wrap justify-center gap-4 mt-4">
-        <button className="px-4 py-2 text-lg font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 active:bg-gray-900">
-          Back
+      <div className="flex flex-wrap justify-center gap-4 m-4">
+        <button className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700 active:bg-gray-900">
+          <FaStepBackward />
         </button>
-        <button className="px-4 py-2 text-lg font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 active:bg-gray-900">
-          Play
+        <button className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700 active:bg-gray-900">
+          {/* <FaPause /> */}
+          <FaPlay />
         </button>
-        <button className="px-4 py-2 text-lg font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 active:bg-gray-900">
-          Forward
+        <button className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700 active:bg-gray-900">
+          <FaStepForward />
         </button>
       </div>
     </div>
