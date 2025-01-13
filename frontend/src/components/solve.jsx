@@ -157,9 +157,7 @@ const Solve = ({ onClose }) => {
             Solve the Cube
           </button>
           <button
-            onClick={() => {
-              solve_cube();
-            }}
+            onClick={() => navigate("/virtualcube")}
             className="bg-blue-600 text-white py-2 px-6 my-2 rounded hover:bg-blue-700 transition duration-300"
           >
             Virtual Cube
@@ -167,14 +165,17 @@ const Solve = ({ onClose }) => {
         </div>
       </div>
 
-      <div className="">
-        <p className="text-white">
-          {solve_response.sequence?.length > 0
-            ? solve_response.sequence.join(" ")
-            : ""}
-        </p>
+      <div className="h-auto w-full bg-green-900 flex justify-center align-middle">
+        <div className="">
+          <p className="text-white text-2xl">
+            {solve_response.sequence?.length > 0
+              ? solve_response.sequence.join(" ")
+              : ""}
+          </p>
+        </div>
+
+        <Cube3D />
       </div>
-      <Cube3D />
     </div>
   );
 };

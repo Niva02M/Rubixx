@@ -5,7 +5,7 @@ import Banner from "./components/banner";
 import Quiz from "./components/quiz";
 import Nav from "./components/nav";
 import Solve from "./components/solve";
-
+import VirtualCube from "./components/virtualCube";
 const App = () => {
   const faqRef = useRef(null);
   const quizRef = useRef(null);
@@ -40,6 +40,7 @@ const App = () => {
               </div>
             }
           />
+          <Route path="/virtualcube" element={<VirtualCube />} />
         </Routes>
 
         <div ref={faqRef} className="section">

@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { initialColors, materials, Roll, stateMap } from "../assets/utils/3Dhelpers";
 
-const Cube3D = () => {
+const VirtualCube = () => {
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
@@ -195,10 +195,10 @@ const Cube3D = () => {
   return (
     <div 
       ref={mountRef} 
-      className="w-full h-[600px] md:w-2/3  overflow-hidden"
+      className="w-screen h-screen md:w-2/3 overflow-hidden pt-16"
     />
 
   );
 };
 
-export default Cube3D;
+export default VirtualCube;
