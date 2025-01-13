@@ -1,139 +1,320 @@
-// src/quizData.js
 const questionsAndAnswers = [
   {
-    question:
-      "What is the maximum number of moves required to solve any solvable Rubik’s Cube configuration?",
-    answer: "The maximum number of moves for a 3×3 Rubik’s Cube is 20 moves.",
+    question: "How many unique positions are possible in a 3x3x3 Rubik's Cube?",
+    options: ["43 quintillion", "1 billion", "100 million", "10 trillion"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "What is the world record for solving a 3x3x3 Rubik's Cube?",
+    options: ["3.47 seconds", "4.22 seconds", "5.55 seconds", "6.99 seconds"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Who invented the Rubik's Cube?",
+    options: ["Ernő Rubik", "David Singmaster", "Tomas Rohlik", "Dan Brown"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "In which year was the Rubik's Cube invented?",
+    options: ["1974", "1980", "1969", "1990"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "What is the standard color scheme of a Rubik's Cube?",
+    options: [
+      "Red, Green, Blue, Yellow, White, Orange",
+      "Blue, Green, Red, White, Yellow, Black",
+      "Yellow, White, Blue, Red, Green, Orange",
+      "Green, Blue, Yellow, White, Red, Black",
+    ],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Which company manufactures Rubik's Cube?",
+    options: ["Rubik's Brand Ltd.", "Hasbro", "Mattel", "Spin Master"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "What is the size of a standard Rubik's Cube?",
+    options: ["5.7 cm", "6 cm", "6.5 cm", "7 cm"],
+    correctOptionIndex: 1,
+  },
+  {
+    question: "What was the original name of the Rubik's Cube?",
+    options: ["Magic Cube", "Puzzle Cube", "Brain Cube", "Color Cube"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "What is the main goal when solving a Rubik's Cube?",
+    options: [
+      "To arrange colors in a single pattern",
+      "To make each side the same color",
+      "To solve in the shortest time",
+      "To make it look aesthetically pleasing",
+    ],
+    correctOptionIndex: 1,
   },
   {
     question:
-      "Can a single move on a Rubik’s Cube change only one corner’s position without affecting the rest?",
-    answer:
-      "No, a single move affects multiple pieces. Every move involves turning one or more layers, thus affecting multiple pieces.",
+      "How many moves does it typically take to solve a Rubik's Cube using beginner's method?",
+    options: ["50 moves", "100 moves", "20 moves", "40 moves"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Which algorithm is commonly used to solve the Rubik's Cube?",
+    options: ["CFOP", "FURU", "XYZ", "L2R"],
+    correctOptionIndex: 0,
   },
   {
     question:
-      "What is the fewest number of moves ever recorded to solve a Rubik’s Cube officially?",
-    answer: "In January 2022, the record was 3.47 seconds, held by Yusheng Du.",
+      "What is the name of the pattern when the Rubik's Cube is solved, but the colors are in a checkerboard pattern?",
+    options: [
+      "Checkerboard Pattern",
+      "Cross Pattern",
+      "Fractal Pattern",
+      "Striped Pattern",
+    ],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "How many smaller cubes make up a standard 3x3x3 Rubik's Cube?",
+    options: ["27", "24", "32", "25"],
+    correctOptionIndex: 0,
   },
   {
     question:
-      "How many possible combinations are there on a standard 3×3 Rubik’s Cube?",
-    answer:
-      "There are 43,252,003,274,489,856,000 possible combinations on a standard 3×3 Rubik’s Cube.",
-  },
-  {
-    question: "Who invented the Rubik’s Cube?",
-    answer: "Erno Rubik is the inventor of the Rubik’s Cube.",
-  },
-  {
-    question: "Can you solve a Rubik’s Cube blindfolded? How is it done?",
-    answer:
-      "Yes, blindfold solving is possible using memorization techniques and algorithms.",
+      "Which of these is NOT a popular method for solving the Rubik's Cube?",
+    options: ["CFOP", "Roux", "Petrus", "Delta Method"],
+    correctOptionIndex: 3,
   },
   {
     question:
-      "What is the term for a sequence of moves that, when repeated, returns a Rubik’s Cube to its original state?",
-    answer:
-      "A sequence of moves that repeats and restores the cube to its original state is called a 'repeating pattern' or 'cycle.'",
-  },
-  {
-    question: "How many edges does a standard 3×3 Rubik’s Cube have?",
-    answer: "A 3×3 Rubik’s Cube has 12 edges.",
+      "Which world record does Feliks Zemdegs hold in Rubik's Cube solving?",
+    options: ["3.47 seconds", "5.55 seconds", "6.99 seconds", "4.22 seconds"],
+    correctOptionIndex: 0,
   },
   {
     question:
-      "What is the 'God's number' for the 3×3 Rubik’s Cube, and what does it represent?",
-    answer:
-      "God's number for the 3×3 Rubik’s Cube is 20. It represents the maximum number of moves needed to solve any solvable configuration.",
+      "What is the term for rotating a Rubik's Cube with one of its faces staying stationary?",
+    options: ["Turn", "Twist", "Spin", "Flip"],
+    correctOptionIndex: 1,
+  },
+  {
+    question: "How many colors are there on a standard Rubik's Cube?",
+    options: ["6", "7", "5", "4"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Which of these is a Rubik's Cube speedcubing event?",
+    options: ["3x3x3", "4x4x4", "2x2x2", "All of the above"],
+    correctOptionIndex: 3,
   },
   {
     question:
-      "Can you name the six colors commonly found on a standard Rubik’s Cube?",
-    answer: "The six colours are white, yellow, blue, green, red, and orange.",
+      "What is the maximum possible number of moves needed to solve a Rubik's Cube from any configuration?",
+    options: ["20", "30", "25", "15"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Who is considered the father of speedcubing?",
+    options: [
+      "Tomas Rokicki",
+      "Feliks Zemdegs",
+      "David Singmaster",
+      "Ernő Rubik",
+    ],
+    correctOptionIndex: 1,
   },
   {
     question:
-      "What is the primary method used by speedcubers to solve the Rubik’s Cube quickly?",
-    answer:
-      "The CFOP (Cross, F2L, OLL, PLL) method is commonly used by speedcubers.",
+      "Which of these terms refers to a Rubik's Cube move where two opposite sides are turned?",
+    options: [
+      "180-degree turn",
+      "90-degree turn",
+      "U-turn",
+      "180-degree twist",
+    ],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "What does 'F2L' stand for in the CFOP method?",
+    options: [
+      "First Two Layers",
+      "Final Two Layers",
+      "Front to Left",
+      "First to Left",
+    ],
+    correctOptionIndex: 0,
   },
   {
     question:
-      "What is the concept of parity in Rubik’s Cube solving, and how does it affect the solving process?",
-    answer:
-      "Parity refers to a situation where the cube appears to be unsolvable due to an odd number of piece swaps.",
+      "Which of the following Rubik's Cube variants has 4 squares on each side?",
+    options: ["4x4x4", "5x5x5", "2x2x2", "6x6x6"],
+    correctOptionIndex: 0,
   },
   {
     question:
-      "What is a PLL (Permutation of the Last Layer) in Rubik’s Cube terminology?",
-    answer:
-      "PLL refers to the last step in the CFOP method, where the pieces on the last layer are permuted to their correct positions.",
+      "In what year did the Rubik's Cube become a worldwide phenomenon?",
+    options: ["1980", "1990", "1974", "2000"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "What is the fastest method for solving the Rubik's Cube?",
+    options: ["CFOP", "Fridrich Method", "Roux Method", "Beginner's Method"],
+    correctOptionIndex: 1,
+  },
+  {
+    question: "Which event was the first Rubik's Cube competition held?",
+    options: [
+      "World Rubik's Cube Championship",
+      "US Nationals",
+      "Czech Open",
+      "Asian Championships",
+    ],
+    correctOptionIndex: 0,
   },
   {
     question:
-      "How many different F2L (First Two Layers) cases are there in the CFOP method?",
-    answer: "There are 41 different F2L cases in the CFOP method.",
+      "What is the term for when a Rubik's Cube has no more legal moves?",
+    options: ["Cube Lock", "Cube Parity", "Cube Error", "Cube Deadlock"],
+    correctOptionIndex: 1,
+  },
+  {
+    question: "Which of the following is a popular Rubik's Cube brand?",
+    options: ["Gan", "Rubik's Brand", "MoYu", "All of the above"],
+    correctOptionIndex: 3,
   },
   {
     question:
-      "Can you solve a 4×4 Rubik’s Cube using the same methods as a 3×3?",
-    answer:
-      "Yes, although additional techniques are needed for the parity cases that can occur on larger cubes.",
+      "What is the name of the algorithm used to solve the last layer of a Rubik's Cube in the CFOP method?",
+    options: ["OLL", "PLL", "F2L", "EOL"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Which is the fastest 3x3x3 Rubik's Cube world record?",
+    options: ["3.47 seconds", "4.22 seconds", "5.55 seconds", "6.99 seconds"],
+    correctOptionIndex: 0,
   },
   {
     question:
-      "What is the term for a Rubik’s Cube pattern where only the corner pieces are twisted?",
-    answer: "This is called a 'T perm' or 'corner permutation.'",
+      "Which of these is the fastest solving method used by top speedcubers?",
+    options: ["CFOP", "Beginner's Method", "Petrus", "Roux"],
+    correctOptionIndex: 0,
   },
   {
-    question: "How many possible 2×2 Rubik’s Cube combinations are there?",
-    answer: "There are 3,674,160 possible combinations on a 2×2 Rubik’s Cube.",
+    question: "What does 'PLL' stand for in Rubik's Cube solving?",
+    options: [
+      "Permutation of the Last Layer",
+      "Position of the Last Layer",
+      "Parallel of the Last Layer",
+      "Place the Last Layer",
+    ],
+    correctOptionIndex: 0,
   },
   {
-    question:
-      "What is the purpose of the cross in the CFOP method for solving the Rubik’s Cube?",
-    answer:
-      "The cross is the first step in CFOP and involves solving a cross on one face.",
+    question: "Which Rubik's Cube variant has 2 squares per side?",
+    options: ["2x2x2", "4x4x4", "3x3x3", "6x6x6"],
+    correctOptionIndex: 0,
   },
   {
-    question:
-      "Can you name three different methods for solving a Rubik’s Cube?",
-    answer: "Three methods include CFOP, Roux, and Petrus.",
-  },
-  {
-    question:
-      "What is the ZB method in Rubik’s Cube solving, and how does it differ from other methods?",
-    answer:
-      "The ZB method is an advanced method focusing on more efficient algorithms.",
-  },
-  {
-    question: "How many pieces does a standard Rubik’s Cube have in total?",
-    answer:
-      "A standard 3×3 Rubik’s Cube has 54 stickers, representing 54 individual pieces.",
-  },
-  {
-    question:
-      "What is the world record for the fastest time to solve a 4×4 Rubik’s Cube, and who holds it?",
-    answer: "The record was 17.42 seconds, held by Yusheng Du.",
+    question: "What is the name of the 5x5x5 Rubik's Cube solving method?",
+    options: [
+      "Big Cube Method",
+      "Reduction Method",
+      "Fridrich Method",
+      "Beginner's Method",
+    ],
+    correctOptionIndex: 1,
   },
   {
     question:
-      "What is the concept of lookahead in speedcubing, and why is it important?",
-    answer:
-      "Lookahead is the ability to plan the next moves while executing the current ones.",
+      "Which color is located directly opposite the white side on a standard Rubik's Cube?",
+    options: ["Yellow", "Blue", "Red", "Green"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "How long is a typical speedcubing competition?",
+    options: ["1-3 days", "1 week", "3-5 hours", "2 hours"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Which Rubik's Cube variant has 6 squares per side?",
+    options: ["6x6x6", "5x5x5", "4x4x4", "3x3x3"],
+    correctOptionIndex: 0,
   },
   {
     question:
-      "Can you solve a Rubik’s Cube using only one hand? What is the one-handed world record?",
-    answer:
-      "Yes, one-handed solving is possible. The world record for one-handed solving was 6.82 seconds, held by Max Park.",
+      "Which of the following is a technique used to manipulate a Rubik's Cube?",
+    options: [
+      "Finger tricks",
+      "Twist moves",
+      "Rotate moves",
+      "Spinning tricks",
+    ],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Who holds the current Rubik's Cube 3x3 world record?",
+    options: ["Yusheng Du", "Feliks Zemdegs", "Max Park", "Seung-Jo Kim"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Which is the most difficult Rubik's Cube variant to solve?",
+    options: ["17x17x17", "9x9x9", "5x5x5", "4x4x4"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Which country has the most Rubik's Cube world champions?",
+    options: ["China", "United States", "Australia", "Germany"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "How many different types of moves are there in the CFOP method?",
+    options: ["4", "6", "3", "5"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Which Rubik's Cube variant is also called the 'pyraminx'?",
+    options: ["Pyraminx", "Skewb", "Megaminx", "Gear Cube"],
+    correctOptionIndex: 0,
   },
   {
     question:
-      "How does the concept of orientation and permutation apply to the solving of Rubik’s Cube?",
-    answer:
-      "Orientation refers to the way pieces are turned, while permutation refers to their arrangement.",
+      "How many different colored stickers are on a standard Rubik's Cube?",
+    options: ["6", "8", "4", "10"],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "What is the first step in solving a Rubik's Cube?",
+    options: [
+      "Make a white cross",
+      "Solve the last layer",
+      "Solve F2L",
+      "Position edges",
+    ],
+    correctOptionIndex: 0,
+  },
+  {
+    question: "Who developed the Fridrich Method for solving the Rubik's Cube?",
+    options: [
+      "Jessica Fridrich",
+      "Dan Brown",
+      "David Singmaster",
+      "Ernő Rubik",
+    ],
+    correctOptionIndex: 0,
+  },
+  {
+    question:
+      "What year was the Rubik's Cube inducted into the Toy Hall of Fame?",
+    options: ["2004", "2011", "1999", "2009"],
+    correctOptionIndex: 0,
+  },
+  {
+    question:
+      "What is the name of the pattern where all 6 sides are identical?",
+    options: ["Solved Cube", "Super Cube", "Complete Cube", "Mini Cube"],
+    correctOptionIndex: 0,
   },
 ];
 
