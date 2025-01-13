@@ -17,16 +17,25 @@ const Solve = ({ onClose }) => {
   const [currentColor, setCurrentColor] = useState("bg-white");
 
   const initialFaceColors = Array(9).fill("bg-white"); // Initial colors for each face
+  // const [cubeColors, setCubeColors] = useState({
+  //   front: [...initialFaceColors],
+  //   back: [...initialFaceColors],
+  //   left: [...initialFaceColors],
+  //   right: [...initialFaceColors],
+  //   top: [...initialFaceColors],
+  //   bottom: [...initialFaceColors],
+  // });
   const [cubeColors, setCubeColors] = useState({
-    front: [...initialFaceColors],
-    back: [...initialFaceColors],
-    left: [...initialFaceColors],
-    right: [...initialFaceColors],
-    top: [...initialFaceColors],
-    bottom: [...initialFaceColors],
+    front: ["bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600", "bg-blue-600"],
+    back: ["bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500", "bg-green-500"],
+    left: ["bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500", "bg-orange-500"],
+    right: ["bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500", "bg-red-500"],
+    top: ["bg-white", "bg-white", "bg-white", "bg-white", "bg-white", "bg-white", "bg-white", "bg-white", "bg-white"],
+    bottom: ["bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400", "bg-yellow-400"],
   });
+
   const [solve_response, setResponse] = useState({
-    sequence: ["a"],
+    sequence: [],
     is_solved: true,
     error: "",
   });
@@ -163,7 +172,6 @@ const Solve = ({ onClose }) => {
         </div>
       </div>
 
-
       {solve_response.sequence?.length > 0 && (
         <>
           {/* solution container */}
@@ -176,7 +184,6 @@ const Solve = ({ onClose }) => {
                 {solve_response.sequence?.length > 0
                   ? solve_response.sequence.join(" ")
                   : ""}
-                agdasfdasdfdf
               </p>
             </div>
 
@@ -184,7 +191,10 @@ const Solve = ({ onClose }) => {
             <button className="font-bold text-lg select-none my-2 px-3 text-white hover:bg-gray-700 active:bg-gray-700 border">
               Show steps
             </button>
-            <Cube3D cubeColors={cubeColors} />
+            <Cube3D
+              cubeColors={cubeColors}
+              initialFaceColors={initialFaceColors}
+            />
           </div>
         </>
       )}

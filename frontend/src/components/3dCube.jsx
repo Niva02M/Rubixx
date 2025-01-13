@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { FaStepBackward, FaStepForward, FaPause, FaPlay } from "react-icons/fa";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -10,7 +10,9 @@ import {
   stateMap,
 } from "../assets/utils/3Dhelpers";
 
-const VirtualCube = ({ cubeColors }) => {
+const VirtualCube = ({ cubeColors, initialFaceColors }) => {
+  // const [cleanedCubeColors, setCleanedCubeColors] = useState(() => cleanColors(cubeColors));
+
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
@@ -22,6 +24,19 @@ const VirtualCube = ({ cubeColors }) => {
   const isRotatingRef = useRef(false);
   const resizeObserverRef = useRef(null);
 
+  const cleanColors = (cubeColors) => {
+    const cleanedCubeColors = {};
+
+    Object.keys(cubeColors).forEach((key) => {
+      cleanedCubeColors[key] = cubeColors[key].map((color) =>
+        color.replace(/^bg-/, "").replace(/\d+/g, "").replace(/-$/, "") 
+    );
+    });
+
+    return cleanedCubeColors;
+  };
+  const cleanedCubeColors=cleanColors(cubeColors)
+  console.log(cleanedCubeColors);
   const rotateConditions = {
     right: { axis: "x", value: 1 },
     left: { axis: "x", value: -1 },
@@ -79,7 +94,7 @@ const VirtualCube = ({ cubeColors }) => {
       for (let i = 0; i < 6; i++) {
         if (stateMap[index][i]) {
           const values = stateMap[index][i];
-          mat.push(materials[initialColors[values.position][values.no]]);
+          mat.push(materials[cleanedCubeColors[values.position][values.no]]); // Use cleanedCubeColors from state
         } else {
           mat.push(materials.black);
         }
