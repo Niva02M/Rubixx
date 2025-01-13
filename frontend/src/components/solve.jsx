@@ -89,7 +89,7 @@ const Solve = ({ onClose }) => {
   });
 
   const [solve_response, setResponse] = useState({
-    sequence: [],
+    sequence: ["a"],
     is_solved: true,
     error: "",
   });
@@ -138,6 +138,11 @@ const Solve = ({ onClose }) => {
         setVisibility(true);
       } else if (data.is_solved && data.sequence.length === 0) {
         setAlert({ message: "Cube is already solved!", visible: true });
+      } else if (data.is_solved && data.sequence.length !== 0) {
+        setAlert({
+          message: "Solved!!! Scroll down to see steps",
+          visible: true,
+        });
       }
     } catch (error) {
       setResponse((prev) => {
@@ -228,7 +233,7 @@ const Solve = ({ onClose }) => {
             Solve the Cube
           </button>
           <button
-            onClick={() => navigate("/virtualcube")}
+            onClick={() => navigate("/virtualcube", { state: { cubeColors } })}
             className="bg-blue-600 text-white py-2 px-6 my-2 rounded hover:bg-blue-700 transition duration-300"
           >
             Virtual Cube

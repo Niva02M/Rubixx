@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
@@ -9,7 +10,7 @@ import {
   stateMap,
 } from "../assets/utils/3Dhelpers";
 
-const VirtualCube = ({ cubeColors, initialFaceColors }) => {
+const VirtualCube = () => {
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
@@ -20,6 +21,8 @@ const VirtualCube = ({ cubeColors, initialFaceColors }) => {
   const moveQueueRef = useRef([]);
   const isRotatingRef = useRef(false);
   const resizeObserverRef = useRef(null);
+  const location = useLocation();
+  const cubeColors = location.state?.cubeColors || initialColors;
 
   const cleanColors = (cubeColors) => {
     const cleanedCubeColors = {};
