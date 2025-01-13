@@ -5,6 +5,7 @@ import "./cube.css";
 import Cube from "./cube";
 import CameraPopup from "./CameraPopUp";
 import FillCube from "./FillCube";
+import Cube3D from "./3dCube";
 import { FaArrowLeft } from "react-icons/fa";
 const Solve = ({ onClose }) => {
   const navigate = useNavigate();
@@ -155,6 +156,14 @@ const Solve = ({ onClose }) => {
           >
             Solve the Cube
           </button>
+          <button
+            onClick={() => {
+              solve_cube();
+            }}
+            className="bg-blue-600 text-white py-2 px-6 my-2 rounded hover:bg-blue-700 transition duration-300"
+          >
+            Virtual Cube
+          </button>
         </div>
       </div>
 
@@ -165,6 +174,7 @@ const Solve = ({ onClose }) => {
             : ""}
         </p>
       </div>
+      <Cube3D />
     </div>
   );
 };
