@@ -165,8 +165,8 @@ const Solve = ({ onClose }) => {
         </div>
       </div>
 
-      <div className="h-auto w-full bg-green-900 flex justify-center align-middle">
-        <div className="">
+      <div className="h-auto w-full bg-green-900 flex flex-col justify-center align-middle">
+        <div className="h-auto w-auto">
           <p className="text-white text-2xl">
             {solve_response.sequence?.length > 0
               ? solve_response.sequence.join(" ")

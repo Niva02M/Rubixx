@@ -1,10 +1,15 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
-import { initialColors, materials, Roll, stateMap } from "../assets/utils/3Dhelpers";
+import {
+  initialColors,
+  materials,
+  Roll,
+  stateMap,
+} from "../assets/utils/3Dhelpers";
 
-const Cube3D = () => {
+const VirtualCube = () => {
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
@@ -39,13 +44,14 @@ const Cube3D = () => {
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffff);
+    scene.background = new THREE.Color(0x000000);
     sceneRef.current = scene;
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
     renderer.shadowMap.enabled = true;
+    renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
@@ -120,10 +126,10 @@ const Cube3D = () => {
 
   const processNextMove = async () => {
     if (moveQueueRef.current.length === 0) return;
-    
+
     isRotatingRef.current = true;
     const move = moveQueueRef.current.shift();
-    
+
     const rollObject = new Roll(
       rotateConditions[move.position],
       move.direction,
@@ -183,22 +189,34 @@ const Cube3D = () => {
         mountRef.current.removeChild(rendererRef.current.domElement);
       }
       delete window.moves;
-      
+
       rendererRef.current?.dispose();
-      cubesRef.current.forEach(cube => {
+      cubesRef.current.forEach((cube) => {
         cube.geometry.dispose();
-        cube.material.forEach(material => material.dispose());
+        cube.material.forEach((material) => material.dispose());
       });
     };
   }, []);
 
   return (
-    <div 
-      ref={mountRef} 
-      className="w-full h-[600px] md:w-2/3  overflow-hidden"
-    />
-
+    <div className="flex flex-col items-center justify-center">
+      <div
+        ref={mountRef}
+        className="w-full h-[600px] md:w-2/3 overflow-hidden"
+      />
+      <div className="flex flex-wrap justify-center gap-4 mt-4">
+        <button className="px-4 py-2 text-lg font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 active:bg-gray-900">
+          Back
+        </button>
+        <button className="px-4 py-2 text-lg font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 active:bg-gray-900">
+          Play
+        </button>
+        <button className="px-4 py-2 text-lg font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 active:bg-gray-900">
+          Forward
+        </button>
+      </div>
+    </div>
   );
 };
 
-export default Cube3D;
+export default VirtualCube;
