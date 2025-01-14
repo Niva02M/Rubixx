@@ -24,7 +24,6 @@ const VirtualCube = () => {
   const resizeObserverRef = useRef(null);
   const location = useLocation();
   const cubeColors = location.state?.cubeColors || initialColors;
-  const [scrambling, setScramblingState] = useState(false);
 
   const cleanColors = (cubeColors) => {
     const cleanedCubeColors = {};
@@ -226,8 +225,8 @@ const VirtualCube = () => {
   return (
     <div className="flex flex-col md:flex-row md:h-screen w-full pt-16 ">
       <div ref={mountRef} className="w-full md:w-2/3 h-[60vh] md:h-full" />
-      <div className="w-full md:w-1/3 p-4 bg-gray-900 rounded-l-3xl">
-        <div className="grid grid-cols-3 gap-4 p-4 bg-black bg-opacity-50 rounded-3xl">
+      <div className="w-full md:w-1/3 p-4 bg-gray-900 rounded-l-3xl flex flex-col justify-center ">
+        <div className="grid grid-cols-3 gap-4 p-4 bg-black bg-opacity-50 rounded-lg">
           <button
             className="h-12 text-lg font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 active:bg-gray-900 "
             onClick={() => moves("front", 1)}
@@ -329,7 +328,7 @@ const VirtualCube = () => {
         </div>
         <div className="mt-4 p-4 bg-black bg-opacity-50 rounded-lg flex justify-center ">
           <button
-            className="h-12 text-lg p-4 font-semibold flex items-center justify-center text-white bg-gray-800 rounded hover:bg-gray-700 active:bg-gray-900"
+            className="h-12 w-full text-lg p-4 font-semibold flex items-center justify-center text-white bg-gray-800 rounded hover:bg-gray-700 active:bg-gray-900"
             onClick={scramble}
           >
             Scramble
