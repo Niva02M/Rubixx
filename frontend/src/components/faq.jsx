@@ -29,7 +29,7 @@ const steps = [
 
 const Faq = () => {
   return (
-    <div className="w-full h-full bg-no-repeat bg-black bg-center bg-contain flex flex-wrap justify-center gap-2 pb-12">
+    <div className="w-full h-full flex flex-wrap justify-center gap-2 pb-12">
       <div className="text-white w-full text-center mb-8">
         <h1 className="text-5xl font-bold mb-4 mt-24 md:mt-12">
           How to use Rubixx?

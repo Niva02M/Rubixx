@@ -11,7 +11,7 @@ import {
   opposite_moves,
 } from "../assets/utils/3Dhelpers";
 import { Alert, ErrorAlert } from "./Alert";
-const VirtualCube = ({ cubeColors, initialFaceColors, sequence }) => {
+const Cube3D = ({ cubeColors, initialFaceColors, sequence }) => {
   // const [cleanedCubeColors, setCleanedCubeColors] = useState(() => cleanColors(cubeColors));
 
   const mountRef = useRef(null);
@@ -221,68 +221,61 @@ const VirtualCube = ({ cubeColors, initialFaceColors, sequence }) => {
     };
   }, []);
 
-  const playNextMove = async () => {
-    if (currentMoveIndex >= sequence.length) {
+  const playMove = async (moveIndex) => {
+    if (moveIndex >= sequence.length) {
       setIsPlaying(false);
-      // setAlert({
-      //   message: "Sequence complete!",
-      //   visible: true,
-      // });
       return;
     }
 
-    const move = sequence[currentMoveIndex];
+    const move = sequence[moveIndex];
     moveQueueRef.current.push(moveNotationTo3d[move]);
+    setDisplayMove(move.toUpperCase());
 
     if (!isRotatingRef.current) {
       await processNextMove();
     }
+  };
+
+  useEffect(() => {
+    let timeoutId;
+
+    const executeNextMove = async () => {
+      if (isPlaying && currentMoveIndex < sequence.length) {
+        await playMove(currentMoveIndex);
+        timeoutId = setTimeout(() => {
+          setCurrentMoveIndex((prev) => prev + 1);
+        }, 500);
+      } else if (currentMoveIndex >= sequence.length) {
+        setIsPlaying(false);
+      }
+    };
 
     if (isPlaying) {
-      playbackTimeoutRef.current = setTimeout(() => {
-        setCurrentMoveIndex((prev) => prev + 1);
-        playNextMove();
-      }, 500);
+      executeNextMove();
     }
-  };
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [isPlaying, currentMoveIndex, sequence.length]);
 
   const togglePlayPause = () => {
-    const newPlayState = !isPlaying;
-    setIsPlaying(newPlayState);
-
-    if (newPlayState) {
-      playNextMove();
-    } else {
-      if (playbackTimeoutRef.current) {
-        clearTimeout(playbackTimeoutRef.current);
-      }
-    }
+    setIsPlaying(!isPlaying);
   };
 
-  const moveForward = () => {
+  const moveForward = async () => {
     if (currentMoveIndex < sequence.length) {
-      const move = sequence[currentMoveIndex];
-      moveQueueRef.current.push(moveNotationTo3d[move]);
+      await playMove(currentMoveIndex);
       setCurrentMoveIndex((prev) => prev + 1);
-      setDisplayMove(move.toUpperCase());
-
-      if (!isRotatingRef.current) {
-        processNextMove();
-      }
     }
-    // else {
-    //   setAlert({
-    //     message: "End of sequence reached",
-    //     visible: true,
-    //   });
-    // }
   };
 
   const moveBackward = () => {
     if (currentMoveIndex > 0) {
       setCurrentMoveIndex((prev) => prev - 1);
       const previousMove = sequence[currentMoveIndex - 1];
-      // You'll need to implement a function to get the opposite move
       const reverseMove = opposite_moves[previousMove];
       moveQueueRef.current.push(moveNotationTo3d[reverseMove]);
       setDisplayMove(reverseMove.toUpperCase());
@@ -315,7 +308,7 @@ const VirtualCube = ({ cubeColors, initialFaceColors, sequence }) => {
         <button
           className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700"
           onClick={moveBackward}
-          disabled={currentMoveIndex === 0}
+          disabled={isPlaying}
         >
           <FaStepBackward />
         </button>
@@ -328,7 +321,7 @@ const VirtualCube = ({ cubeColors, initialFaceColors, sequence }) => {
         <button
           className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700"
           onClick={moveForward}
-          disabled={currentMoveIndex >= sequence.length}
+          disabled={isPlaying}
         >
           <FaStepForward />
         </button>
@@ -349,4 +342,4 @@ const VirtualCube = ({ cubeColors, initialFaceColors, sequence }) => {
   );
 };
 
-export default VirtualCube;
+export default Cube3D;

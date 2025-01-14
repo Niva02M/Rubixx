@@ -59,7 +59,7 @@ const VirtualCube = () => {
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
+    scene.background = new THREE.Color();
     sceneRef.current = scene;
 
     // Renderer setup
@@ -214,8 +214,8 @@ const VirtualCube = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row h-screen w-full pt-16">
-      <div ref={mountRef} className="w-full md:w-2/3 h-[60vh] md:h-screen" />
+    <div className="flex flex-col md:flex-row md:h-screen w-full pt-16 ">
+      <div ref={mountRef} className="w-full md:w-2/3 h-[60vh] md:h-full" />
       <div className="w-full md:w-1/3 p-4 bg-gray-900">
         <div className="grid grid-cols-3 gap-4 p-4 bg-black bg-opacity-50 rounded-lg">
           <button
