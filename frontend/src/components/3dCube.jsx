@@ -27,6 +27,8 @@ const VirtualCube = ({ cubeColors, initialFaceColors, sequence }) => {
   const [alert, setAlert] = useState({ message: "", visible: false });
   const [errorAlert, setErrorAlert] = useState({ message: "", visible: false });
   const [isPlaying, setIsPlaying] = useState(false);
+  const [displayMove, setDisplayMove] = useState("None");
+
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const playbackTimeoutRef = useRef(null);
 
@@ -222,10 +224,10 @@ const VirtualCube = ({ cubeColors, initialFaceColors, sequence }) => {
   const playNextMove = async () => {
     if (currentMoveIndex >= sequence.length) {
       setIsPlaying(false);
-      setAlert({
-        message: "Sequence complete!",
-        visible: true,
-      });
+      // setAlert({
+      //   message: "Sequence complete!",
+      //   visible: true,
+      // });
       return;
     }
 
@@ -262,16 +264,18 @@ const VirtualCube = ({ cubeColors, initialFaceColors, sequence }) => {
       const move = sequence[currentMoveIndex];
       moveQueueRef.current.push(moveNotationTo3d[move]);
       setCurrentMoveIndex((prev) => prev + 1);
+      setDisplayMove(move.toUpperCase());
 
       if (!isRotatingRef.current) {
         processNextMove();
       }
-    } else {
-      setAlert({
-        message: "End of sequence reached",
-        visible: true,
-      });
     }
+    // else {
+    //   setAlert({
+    //     message: "End of sequence reached",
+    //     visible: true,
+    //   });
+    // }
   };
 
   const moveBackward = () => {
@@ -281,6 +285,7 @@ const VirtualCube = ({ cubeColors, initialFaceColors, sequence }) => {
       // You'll need to implement a function to get the opposite move
       const reverseMove = opposite_moves[previousMove];
       moveQueueRef.current.push(moveNotationTo3d[reverseMove]);
+      setDisplayMove(reverseMove.toUpperCase());
 
       if (!isRotatingRef.current) {
         processNextMove();
@@ -303,9 +308,7 @@ const VirtualCube = ({ cubeColors, initialFaceColors, sequence }) => {
       />
       {/* Current Move Display */}
       <div className="text-lg font-semibold text-white my-4">
-        {currentMoveIndex > 0 && currentMoveIndex <= sequence.length
-          ? `Current Move: ${sequence[currentMoveIndex - 1].toUpperCase()}`
-          : "Current Move: None"}
+        {`Current Move: ${displayMove}`}
       </div>
 
       <div className="flex flex-wrap justify-center gap-4 m-4">
