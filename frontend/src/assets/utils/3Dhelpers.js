@@ -30,6 +30,45 @@ export const materials = {
     metalness: 0.9,
   }),
 };
+
+export const moveNotationTo3d = {
+  f: { position: "front", direction: -1 },
+  "f'": { position: "front", direction: 1 },
+  u: { position: "top", direction: -1 },
+  "u'": { position: "top", direction: 1 },
+  r: { position: "right", direction: -1 },
+  "r'": { position: "right", direction: 1 },
+  l: { position: "left", direction: 1 },
+  "l'": { position: "left", direction: -1 },
+  b: { position: "back", direction: 1 },
+  "b'": { position: "back", direction: -1 },
+  d: { position: "bottom", direction: 1 },
+  "d'": { position: "bottom", direction: -1 },
+  ru: { position: "rotateUp", direction: -1 },
+  rd: { position: "rotateDown", direction: 1 },
+  rr: { position: "rotateRight", direction: 1 },
+  rl: { position: "rotateLeft", direction: -1 },
+};
+  
+export const opposite_moves = {
+  "f": "f'",
+  "f'": "f",
+  "r": "r'",
+  "r'": "r",
+  "l": "l'",
+  "l'": "l",
+  "u": "u'",
+  "u'": "u",
+  "d": "d'",
+  "d'": "d",
+  "b": "b'",
+  "b'": "b",
+  "rr": "rl",
+  "rl": "rr",
+  "ru": "rd",
+  "rd": "ru",
+}
+
 export const initialColors = {
   front: [
     "blue",

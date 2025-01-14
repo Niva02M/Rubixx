@@ -306,13 +306,13 @@ const VirtualCube = () => {
           </button>
           <button
             className="h-12 text-lg font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 active:bg-gray-900"
-            onClick={() => moves("rotateRight", -1)}
+            onClick={() => moves("rotateRight", 1)}
           >
             Right
           </button>
           <button
             className="h-12 text-lg font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 active:bg-gray-900"
-            onClick={() => moves("rotateLeft", 1)}
+            onClick={() => moves("rotateLeft", -1)}
           >
             Left
           </button>

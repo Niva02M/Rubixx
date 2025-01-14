@@ -7,9 +7,11 @@ import {
   materials,
   Roll,
   stateMap,
+  moveNotationTo3d,
+  opposite_moves,
 } from "../assets/utils/3Dhelpers";
-
-const VirtualCube = ({ cubeColors, initialFaceColors }) => {
+import { Alert, ErrorAlert } from "./Alert";
+const VirtualCube = ({ cubeColors, initialFaceColors, sequence }) => {
   // const [cleanedCubeColors, setCleanedCubeColors] = useState(() => cleanColors(cubeColors));
 
   const mountRef = useRef(null);
@@ -22,19 +24,24 @@ const VirtualCube = ({ cubeColors, initialFaceColors }) => {
   const moveQueueRef = useRef([]);
   const isRotatingRef = useRef(false);
   const resizeObserverRef = useRef(null);
+  const [alert, setAlert] = useState({ message: "", visible: false });
+  const [errorAlert, setErrorAlert] = useState({ message: "", visible: false });
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
+  const playbackTimeoutRef = useRef(null);
 
   const cleanColors = (cubeColors) => {
     const cleanedCubeColors = {};
 
     Object.keys(cubeColors).forEach((key) => {
       cleanedCubeColors[key] = cubeColors[key].map((color) =>
-        color.replace(/^bg-/, "").replace(/\d+/g, "").replace(/-$/, "") 
-    );
+        color.replace(/^bg-/, "").replace(/\d+/g, "").replace(/-$/, "")
+      );
     });
 
     return cleanedCubeColors;
   };
-  const cleanedCubeColors=cleanColors(cubeColors)
+  const cleanedCubeColors = cleanColors(cubeColors);
   const rotateConditions = {
     right: { axis: "x", value: 1 },
     left: { axis: "x", value: -1 },
@@ -212,24 +219,129 @@ const VirtualCube = ({ cubeColors, initialFaceColors }) => {
     };
   }, []);
 
+  const playNextMove = async () => {
+    if (currentMoveIndex >= sequence.length) {
+      setIsPlaying(false);
+      setAlert({
+        message: "Sequence complete!",
+        visible: true,
+      });
+      return;
+    }
+
+    const move = sequence[currentMoveIndex];
+    moveQueueRef.current.push(moveNotationTo3d[move]);
+
+    if (!isRotatingRef.current) {
+      await processNextMove();
+    }
+
+    if (isPlaying) {
+      playbackTimeoutRef.current = setTimeout(() => {
+        setCurrentMoveIndex((prev) => prev + 1);
+        playNextMove();
+      }, 500);
+    }
+  };
+
+  const togglePlayPause = () => {
+    const newPlayState = !isPlaying;
+    setIsPlaying(newPlayState);
+
+    if (newPlayState) {
+      playNextMove();
+    } else {
+      if (playbackTimeoutRef.current) {
+        clearTimeout(playbackTimeoutRef.current);
+      }
+    }
+  };
+
+  const moveForward = () => {
+    if (currentMoveIndex < sequence.length) {
+      const move = sequence[currentMoveIndex];
+      moveQueueRef.current.push(moveNotationTo3d[move]);
+      setCurrentMoveIndex((prev) => prev + 1);
+
+      if (!isRotatingRef.current) {
+        processNextMove();
+      }
+    } else {
+      setAlert({
+        message: "End of sequence reached",
+        visible: true,
+      });
+    }
+  };
+
+  const moveBackward = () => {
+    if (currentMoveIndex > 0) {
+      setCurrentMoveIndex((prev) => prev - 1);
+      const previousMove = sequence[currentMoveIndex - 1];
+      // You'll need to implement a function to get the opposite move
+      const reverseMove = opposite_moves[previousMove];
+      moveQueueRef.current.push(moveNotationTo3d[reverseMove]);
+
+      if (!isRotatingRef.current) {
+        processNextMove();
+      }
+    }
+  };
+  useEffect(() => {
+    return () => {
+      if (playbackTimeoutRef.current) {
+        clearTimeout(playbackTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center bg-gray-900">
       <div
         ref={mountRef}
         className="w-full h-[500px] md:w-2/3 overflow-hidden rounded-3xl bg-gray-900"
       />
+      {/* Current Move Display */}
+      <div className="text-lg font-semibold text-white my-4">
+        {currentMoveIndex > 0 && currentMoveIndex <= sequence.length
+          ? `Current Move: ${sequence[currentMoveIndex - 1].toUpperCase()}`
+          : "Current Move: None"}
+      </div>
+
       <div className="flex flex-wrap justify-center gap-4 m-4">
-        <button className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700 ">
+        <button
+          className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700"
+          onClick={moveBackward}
+          disabled={currentMoveIndex === 0}
+        >
           <FaStepBackward />
         </button>
-        <button className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700 active:bg-gray-900">
-          {/* <FaPause /> */}
-          <FaPlay />
+        <button
+          className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700 active:bg-gray-900"
+          onClick={togglePlayPause}
+        >
+          {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
-        <button className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700">
+        <button
+          className="px-4 py-2 text-lg font-semibold text-white bg-black rounded hover:bg-gray-700"
+          onClick={moveForward}
+          disabled={currentMoveIndex >= sequence.length}
+        >
           <FaStepForward />
         </button>
       </div>
+      {alert.visible && (
+        <Alert
+          message={alert.message}
+          onClose={() => setAlert({ ...alert, visible: false })}
+        />
+      )}
+      {alert.visible && (
+        <ErrorAlert
+          message={ErrorAlert.message}
+          onClose={() => setErrorAlert({ ...errorAlert, visible: false })}
+        />
+      )}
     </div>
   );
 };
