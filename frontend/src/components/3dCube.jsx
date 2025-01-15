@@ -11,9 +11,8 @@ import {
   opposite_moves,
 } from "../assets/utils/3Dhelpers";
 import { Alert, ErrorAlert } from "./Alert";
-const Cube3D = ({ cubeColors, initialFaceColors, sequence }) => {
-  // const [cleanedCubeColors, setCleanedCubeColors] = useState(() => cleanColors(cubeColors));
 
+const Cube3D = ({ cubeColors, initialFaceColors, sequence }) => {
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
@@ -28,7 +27,6 @@ const Cube3D = ({ cubeColors, initialFaceColors, sequence }) => {
   const [errorAlert, setErrorAlert] = useState({ message: "", visible: false });
   const [isPlaying, setIsPlaying] = useState(false);
   const [displayMove, setDisplayMove] = useState("None");
-
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const playbackTimeoutRef = useRef(null);
 
@@ -43,7 +41,9 @@ const Cube3D = ({ cubeColors, initialFaceColors, sequence }) => {
 
     return cleanedCubeColors;
   };
+
   const cleanedCubeColors = cleanColors(cubeColors);
+
   const rotateConditions = {
     right: { axis: "x", value: 1 },
     left: { axis: "x", value: -1 },
@@ -221,70 +221,80 @@ const Cube3D = ({ cubeColors, initialFaceColors, sequence }) => {
     };
   }, []);
 
-  const playMove = async (moveIndex) => {
-    if (moveIndex >= sequence.length) {
-      setIsPlaying(false);
-      return;
-    }
+  // const playMove = async (moveIndex) => {
+  //   if (moveIndex >= sequence.length) {
+  //     setIsPlaying(false);
+  //     return;
+  //   }
 
-    const move = sequence[moveIndex];
-    moveQueueRef.current.push(moveNotationTo3d[move]);
-    setDisplayMove(move.toUpperCase());
+  //   const move = sequence[moveIndex];
+  //   moveQueueRef.current.push(moveNotationTo3d[move]);
+  //   setDisplayMove(move.toUpperCase());
 
-    if (!isRotatingRef.current) {
-      await processNextMove();
-    }
-  };
+  //   if (!isRotatingRef.current) {
+  //     await processNextMove();
+  //   }
+  // };
 
-  useEffect(() => {
-    let timeoutId;
+  // useEffect(() => {
+  //   let timeoutId;
 
-    const executeNextMove = async () => {
-      if (isPlaying && currentMoveIndex < sequence.length) {
-        await playMove(currentMoveIndex);
-        timeoutId = setTimeout(() => {
-          setCurrentMoveIndex((prev) => prev + 1);
-        }, 500);
-      } else if (currentMoveIndex >= sequence.length) {
-        setIsPlaying(false);
-      }
-    };
+  //   const executeNextMove = async () => {
+  //     if (isPlaying && currentMoveIndex < sequence.length) {
+  //       await playMove(currentMoveIndex);
+  //       timeoutId = setTimeout(() => {
+  //         setCurrentMoveIndex((prev) => prev + 1);
+  //       }, 500);
+  //     } else if (currentMoveIndex >= sequence.length) {
+  //       setIsPlaying(false);
+  //     }
+  //   };
 
-    if (isPlaying) {
-      executeNextMove();
-    }
+  //   if (isPlaying) {
+  //     executeNextMove();
+  //   }
 
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [isPlaying, currentMoveIndex, sequence.length]);
+  //   return () => {
+  //     if (timeoutId) {
+  //       clearTimeout(timeoutId);
+  //     }
+  //   };
+  // }, [isPlaying, currentMoveIndex, sequence.length]);
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
+
+    setTimeout(moveForward(), 300);
   };
 
-  const moveForward = async () => {
-    if (currentMoveIndex < sequence.length) {
-      await playMove(currentMoveIndex);
-      setCurrentMoveIndex((prev) => prev + 1);
-    }
-  };
+  // const moveForward = async () => {
+  //   if (currentMoveIndex < sequence.length) {
+  //     await playMove(currentMoveIndex);
+  //     setCurrentMoveIndex((prev) => prev + 1);
+  //   }
+  // };
 
   const moveBackward = () => {
     if (currentMoveIndex > 0) {
       setCurrentMoveIndex((prev) => prev - 1);
       const previousMove = sequence[currentMoveIndex - 1];
-      const reverseMove = opposite_moves[previousMove];
-      moveQueueRef.current.push(moveNotationTo3d[reverseMove]);
-      setDisplayMove(reverseMove.toUpperCase());
-
-      if (!isRotatingRef.current) {
-        processNextMove();
-      }
+      const opposisteMove = opposite_moves[previousMove];
+      const reverseMove = moveNotationTo3d[opposisteMove];
+      setDisplayMove(opposisteMove.toUpperCase());
+      moves(reverseMove.position, reverseMove.direction);
     }
   };
+  const moveForward = () => {
+    if (currentMoveIndex < sequence.length) {
+      console.log("something");
+      const nextMove = sequence[currentMoveIndex];
+      setCurrentMoveIndex((prev) => prev + 1);
+      const move = moveNotationTo3d[nextMove];
+      setDisplayMove(nextMove.toUpperCase());
+      moves(move.position, move.direction);
+    }
+  };
+
   useEffect(() => {
     return () => {
       if (playbackTimeoutRef.current) {
@@ -332,9 +342,9 @@ const Cube3D = ({ cubeColors, initialFaceColors, sequence }) => {
           onClose={() => setAlert({ ...alert, visible: false })}
         />
       )}
-      {alert.visible && (
+      {errorAlert.visible && (
         <ErrorAlert
-          message={ErrorAlert.message}
+          message={errorAlert.message}
           onClose={() => setErrorAlert({ ...errorAlert, visible: false })}
         />
       )}
