@@ -4,24 +4,156 @@ import { useNavigate } from "react-router-dom";
 import "./cube.css";
 import Cube from "./cube";
 import CameraPopup from "./CameraPopUp";
+import FillCube from "./FillCube";
+import Cube3D from "./3dCube";
+import Alert from "./Alert";
 import { FaArrowLeft } from "react-icons/fa";
 const Solve = ({ onClose }) => {
   const navigate = useNavigate();
 
   const [popupOpen, setPopupOpen] = useState(false);
   const [popupVisible, setVisibility] = useState(false);
+  const [alert, setAlert] = useState({ message: "", visible: false });
 
   //selected color to fill
   const [currentColor, setCurrentColor] = useState("bg-white");
 
-  const initialFaceColors = Array(9).fill("bg-white"); // Initial colors for each face
+  const initialFaceColors = Array(9).fill("bg-white"); // Initial colors for each fac
+  // const [cubeColors, setCubeColors] = useState({
+  //   front: [
+  //     "bg-blue-600",
+  //     "bg-blue-600",
+  //     "bg-blue-600",
+  //     "bg-blue-600",
+  //     "bg-blue-600",
+  //     "bg-blue-600",
+  //     "bg-blue-600",
+  //     "bg-blue-600",
+  //     "bg-blue-600",
+  //   ],
+  //   back: [
+  //     "bg-green-500",
+  //     "bg-green-500",
+  //     "bg-green-500",
+  //     "bg-green-500",
+  //     "bg-green-500",
+  //     "bg-green-500",
+  //     "bg-green-500",
+  //     "bg-green-500",
+  //     "bg-green-500",
+  //   ],
+  //   left: [
+  //     "bg-orange-500",
+  //     "bg-orange-500",
+  //     "bg-orange-500",
+  //     "bg-orange-500",
+  //     "bg-orange-500",
+  //     "bg-orange-500",
+  //     "bg-orange-500",
+  //     "bg-orange-500",
+  //     "bg-orange-500",
+  //   ],
+  //   right: [
+  //     "bg-red-500",
+  //     "bg-red-500",
+  //     "bg-red-500",
+  //     "bg-red-500",
+  //     "bg-red-500",
+  //     "bg-red-500",
+  //     "bg-red-500",
+  //     "bg-red-500",
+  //     "bg-red-500",
+  //   ],
+  //   top: [
+  //     "bg-white",
+  //     "bg-white",
+  //     "bg-white",
+  //     "bg-white",
+  //     "bg-white",
+  //     "bg-white",
+  //     "bg-white",
+  //     "bg-white",
+  //     "bg-white",
+  //   ],
+  //   bottom: [
+  //     "bg-yellow-400",
+  //     "bg-yellow-400",
+  //     "bg-yellow-400",
+  //     "bg-yellow-400",
+  //     "bg-yellow-400",
+  //     "bg-yellow-400",
+  //     "bg-yellow-400",
+  //     "bg-yellow-400",
+  //     "bg-yellow-400",
+  //   ],
+  // });
   const [cubeColors, setCubeColors] = useState({
-    front: [...initialFaceColors],
-    back: [...initialFaceColors],
-    left: [...initialFaceColors],
-    right: [...initialFaceColors],
-    top: [...initialFaceColors],
-    bottom: [...initialFaceColors],
+    front: [
+      "bg-blue-600",
+      "bg-yellow-400",
+      "bg-red-500",
+      "bg-white",
+      "bg-orange-500",
+      "bg-red-500",
+      "bg-orange-500",
+      "bg-white",
+      "bg-blue-600",
+    ],
+    back: [
+      "bg-yellow-400",
+      "bg-red-500",
+      "bg-white",
+      "bg-blue-600",
+      "bg-red-500",
+      "bg-orange-500",
+      "bg-red-500",
+      "bg-orange-500",
+      "bg-green-500",
+    ],
+    left: [
+      "bg-orange-500",
+      "bg-green-500",
+      "bg-yellow-400",
+      "bg-green-500",
+      "bg-green-500",
+      "bg-red-500",
+      "bg-yellow-400",
+      "bg-white",
+      "bg-white",
+    ],
+    right: [
+      "bg-white",
+      "bg-blue-600",
+      "bg-blue-600",
+      "bg-yellow-400",
+      "bg-blue-600",
+      "bg-red-500",
+      "bg-red-500",
+      "bg-blue-600",
+      "bg-green-500",
+    ],
+    top: [
+      "bg-green-500",
+      "bg-green-500",
+      "bg-orange-500",
+      "bg-yellow-400",
+      "bg-yellow-400",
+      "bg-yellow-400",
+      "bg-red-500",
+      "bg-orange-500",
+      "bg-green-500",
+    ],
+    bottom: [
+      "bg-blue-600",
+      "bg-blue-600",
+      "bg-white",
+      "bg-green-500",
+      "bg-white",
+      "bg-orange-500",
+      "bg-orange-500",
+      "bg-white",
+      "bg-yellow-400",
+    ],
   });
   const [solve_response, setResponse] = useState({
     sequence: [],
@@ -67,9 +199,17 @@ const Solve = ({ onClose }) => {
       });
       const data = await response.json();
       setResponse(data);
+      console.log(data);
       if (!data.is_solved) {
         console.log(solve_response);
         setVisibility(true);
+      } else if (data.is_solved && data.sequence.length === 0) {
+        setAlert({ message: "Cube is already solved!", visible: true });
+      } else if (data.is_solved && data.sequence.length !== 0) {
+        setAlert({
+          message: "Solved!!! Scroll down to see steps",
+          visible: true,
+        });
       }
     } catch (error) {
       setResponse((prev) => {
@@ -89,6 +229,12 @@ const Solve = ({ onClose }) => {
           <FaArrowLeft /> Back
         </button>
       </div>
+      {/* Alert Component */}
+      <Alert
+        message={alert.message}
+        isVisible={alert.visible}
+        onClose={() => setAlert({ ...alert, visible: false })}
+      />
 
       {/* error div */}
       <div
@@ -112,8 +258,7 @@ const Solve = ({ onClose }) => {
           {solve_response.error}
         </div>
       </div>
-
-      <div className="flex justify-evenly flex-wrap bg-blue-600">
+      <div className="flex justify-evenly flex-wrap ">
         {/*cube */}
         <Cube
           cubeColors={cubeColors}
@@ -122,7 +267,7 @@ const Solve = ({ onClose }) => {
         />
 
         {/* menu */}
-        <div className="flex flex-col justify-center bg-white w-auto">
+        <div className="flex flex-col justify-center rounded-2xl w-auto">
           <button
             onClick={() => setPopupOpen(true)}
             className="bg-blue-600 text-white py-2 px-6 my-2 rounded hover:bg-blue-700 transition duration-300"
@@ -138,80 +283,12 @@ const Solve = ({ onClose }) => {
           )}
 
           {/* fillcube colors section */}
-          <div className="my-2">
-            <p className=" text-white font-bold text-lg select-none my-2 px-3 ">
-              Fill Cube:
-            </p>
-
-            {/* colors */}
-            <div
-              className={`${currentColor} border-2 border-black p-3 mb-2 rounded-3xl flex align-middle justify-center flex-wrap`}
-            >
-              <div className="">
-                <div
-                  className="bg-blue-600 border-2 border-black h-14 w-14 rounded-2xl mx-2 inline-block"
-                  onClick={() => {
-                    setCurrentColor("bg-blue-600");
-                  }}
-                ></div>
-                <div
-                  className="bg-green-500 border-2 border-black h-14 w-14 rounded-2xl mx-2 inline-block"
-                  onClick={() => {
-                    setCurrentColor("bg-green-500");
-                  }}
-                ></div>
-                <div
-                  className="bg-red-500 border-2 border-black h-14 w-14 rounded-2xl mx-2 inline-block"
-                  onClick={() => {
-                    setCurrentColor("bg-red-500");
-                  }}
-                ></div>
-              </div>
-              <div className="">
-                <div
-                  className="bg-orange-500 border-2 border-black h-14 w-14 rounded-2xl mx-2 inline-block"
-                  onClick={() => {
-                    setCurrentColor("bg-orange-500");
-                  }}
-                ></div>
-                <div
-                  className="bg-yellow-400 border-2 border-black h-14 w-14 rounded-2xl mx-2 inline-block"
-                  onClick={() => {
-                    setCurrentColor("bg-yellow-400");
-                  }}
-                ></div>
-                <div
-                  className="bg-white border-2 border-black h-14 w-14 rounded-2xl mx-2 inline-block"
-                  onClick={() => {
-                    setCurrentColor("bg-white");
-                  }}
-                ></div>
-              </div>
-              <div
-                className="py-4 bg-gray-500 text-white select-none h-14 w-14 rounded-2xl mx-2 text-center"
-                onClick={() => {
-                  setCurrentColor("bg-white");
-                  setCubeColors((prevColors) => {
-                    const updatedColors = { ...prevColors };
-                    const faces = [
-                      "front",
-                      "back",
-                      "left",
-                      "right",
-                      "top",
-                      "bottom",
-                    ];
-                    faces.forEach((face) => {
-                      updatedColors[face] = [...initialFaceColors];
-                    });
-                    return updatedColors;
-                  });
-                }}
-              >
-                Clear
-              </div>
-            </div>
-          </div>
+          <FillCube
+            setCubeColors={setCubeColors}
+            currentColor={currentColor}
+            setCurrentColor={setCurrentColor}
+            initialFaceColors={initialFaceColors}
+          />
 
           {/* sends the cube notation to solve */}
           <button
@@ -222,16 +299,42 @@ const Solve = ({ onClose }) => {
           >
             Solve the Cube
           </button>
+          <button
+            onClick={() => navigate("/virtualcube", { state: { cubeColors } })}
+            className="bg-blue-600 text-white py-2 px-6 my-2 rounded hover:bg-blue-700 transition duration-300"
+          >
+            Virtual Cube
+          </button>
         </div>
       </div>
 
-      <div className="">
-        <p className="text-white">
-          {solve_response.sequence?.length > 0
-            ? solve_response.sequence.join(" ")
-            : ""}
-        </p>
-      </div>
+      {solve_response.sequence?.length > 0 && (
+        <>
+          {/* solution container */}
+          <div className="h-auto w-full  flex flex-col justify-center align-middle">
+            <p className=" text-white font-bold text-lg select-none my- px-3 ">
+              Solve Sequence:
+            </p>
+            <div className="h-auto w-auto  pb-4 pl-16">
+              <p className="text-white text-xl">
+                {solve_response.sequence?.length > 0
+                  ? solve_response.sequence.join("  ").toUpperCase()
+                  : ""}
+              </p>
+            </div>
+
+            {/* Show steps */}
+            <button className="font-bold text-lg select-none my-2 px-3 text-white hover:bg-gray-700 active:bg-gray-700 border">
+              Show steps
+            </button>
+            <Cube3D
+              cubeColors={cubeColors}
+              initialFaceColors={initialFaceColors}
+              sequence={solve_response.sequence}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };

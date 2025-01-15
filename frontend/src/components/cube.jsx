@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { PiArrowBendRightUpBold, PiArrowBendLeftUpBold } from "react-icons/pi";
+import { FaArrowUpLong } from "react-icons/fa6";
+
 import "./cube.css";
 
 const Cube = ({ cubeColors, currentColor, setCubeColors }) => {
@@ -8,7 +11,7 @@ const Cube = ({ cubeColors, currentColor, setCubeColors }) => {
 
   return (
     <div
-      className={`w-[650px] h-[500px] flex flex-col justify-center opacity-100 bg-green-300`}
+      className={`w-[650px] h-[500px] flex flex-col justify-center opacity-100  rounded-2xl`}
     >
       {/* toggle 3d and 2d */}
       <div className="w-full flex justify-center ">
@@ -40,7 +43,7 @@ const Cube = ({ cubeColors, currentColor, setCubeColors }) => {
       <div
         className={`${
           typeOfCube == "3d" ? "h-[381px]" : "h-[430px]"
-        } w-full flex justify-center items-center  bg-blue-400 `}
+        } w-full flex justify-center items-center `}
       >
         {/* cube div */}
         <div
@@ -214,20 +217,26 @@ const Cube = ({ cubeColors, currentColor, setCubeColors }) => {
         } flex justify-center align-middle `}
       >
         <div
-          className="bg-blue-600 w-16 h-12"
+          className="w-16 h-12 flex items-center justify-center"
           onClick={() => setRotation((prev) => ({ y: prev.y - 90, z: prev.z }))}
-        ></div>
+        >
+          <PiArrowBendLeftUpBold size={30} className="-rotate-12 text-white" />
+        </div>
         <div
-          className="bg-orange-600 w-16 h-12"
+          className="flex items-center justify-center w-16 h-12"
           onClick={() =>
             setRotation((prev) => ({ y: prev.y, z: prev.z - 180 }))
           }
-        ></div>
+        >
+          <FaArrowUpLong size={25} className="text-white" />
+        </div>
 
         <div
-          className="bg-blue-600 w-16 h-12"
+          className=" w-16 h-12 flex items-center justify-center"
           onClick={() => setRotation((prev) => ({ y: prev.y + 90, z: prev.z }))}
-        ></div>
+        >
+          <PiArrowBendRightUpBold size={30} className="rotate-12 text-white" />
+        </div>
       </div>
     </div>
   );
